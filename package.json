@@ -18,8 +18,8 @@
     "coverage": "http-server coverage/lcov-report/"
   },
   "dependencies": {
-    "@cork-labs/monkfish": "^0.1.0",
-    "@cork-labs/monkfish-adapter-mongoose": "^0.0.2",
+    "@cork-labs/monkfish": "^0.2.0",
+    "@cork-labs/monkfish-adapter-mongoose": "^0.1.0",
     "bcrypt": "^1.0.3",
     "jsonwebtoken": "^8.2.0"
   },

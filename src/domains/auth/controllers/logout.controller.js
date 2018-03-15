@@ -15,7 +15,8 @@ class AuthLogoutController extends Controller {
 
   handle (event, context, logger) {
     if (context.accessToken && context.accessToken.jti) {
-      return this._tokenService.remove(context.accessToken.jti);
+      return this._tokenService.remove(context.accessToken.jti)
+        .then(() => {});
     }
   }
 }

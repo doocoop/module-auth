@@ -17,7 +17,7 @@ const AuthModule = require('../../../src/auth.module');
 
 const fixtures = require('./auth.login.fixtures');
 
-describe.only('auth.login', function () {
+describe('auth.login', function () {
   beforeEach(function () {
     this.logger = {
       info: sinon.spy(),
@@ -64,7 +64,6 @@ describe.only('auth.login', function () {
 
   describe('when no application provided', function () {
     beforeEach(function () {
-      this.token = 'foobar';
       this.event = {
         type: 'auth.login'
       };
@@ -79,7 +78,6 @@ describe.only('auth.login', function () {
 
   describe('when an unknown application is provided', function () {
     beforeEach(function () {
-      this.token = 'foobar';
       this.event = {
         type: 'auth.login'
       };
@@ -96,7 +94,6 @@ describe.only('auth.login', function () {
 
   describe('when a known application is provided, with an invalid origin', function () {
     beforeEach(function () {
-      this.token = 'foobar';
       this.event = {
         type: 'auth.login',
         params: {}
@@ -115,7 +112,6 @@ describe.only('auth.login', function () {
 
   describe('when a known application and invalid credentials are provided', function () {
     beforeEach(function () {
-      this.token = 'foobar';
       this.event = {
         type: 'auth.login',
         params: this.seeder.get('invalid_credentials')
@@ -131,9 +127,8 @@ describe.only('auth.login', function () {
     });
   });
 
-  describe.only('when a known application is provided', function () {
+  describe('when a known application and valid crendetials are provided', function () {
     beforeEach(function () {
-      this.token = 'foobar';
       this.event = {
         type: 'auth.login',
         params: this.seeder.get('valid_credentials')
@@ -144,8 +139,11 @@ describe.only('auth.login', function () {
       this.promise = this.application.handle(this.event, this.context, this.logger);
     });
 
-    it('should throw an error', function () {
-      return expect(this.promise).to.be.rejectedWith('doocoop.auth.credentials-invalid');
+    it('should resolve with a new token', function () {
+      return this.promise.then((result) => {
+        expect(result.data.id).to.be.a('string');
+        expect(result._meta.token).to.be.a('string');
+      });
     });
   });
 });

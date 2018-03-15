@@ -29,7 +29,7 @@ class AuthLoginController extends Controller {
           });
       })
       .then((result) => {
-        return new Result({ id: result.token._model._id }, { token: result.token.sign() });
+        return new Result({ id: result.token._model._id.toString() }, { token: result.token.sign() });
       });
   }
 }

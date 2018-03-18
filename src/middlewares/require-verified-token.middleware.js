@@ -5,6 +5,13 @@ const Middleware = monkfish.Middleware;
 const ApplicationError = monkfish.errors.ApplicationError;
 
 class RequireVerifiedTokenMiddleware extends Middleware {
+  getAllowedErrors () {
+    return [
+      'doocoop.auth.token-invalid',
+      'doocoop.auth.token-required'
+    ];
+  }
+
   handle (event, context, logger) {
     if (!context.accessToken) {
       if (context.accessTokenError) {

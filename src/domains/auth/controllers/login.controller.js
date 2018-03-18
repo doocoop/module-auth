@@ -13,6 +13,10 @@ class AuthLoginController extends Controller {
     this._tokenService = tokenService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.auth.credentials-invalid'];
+  }
+
   handle (event, context, logger) {
     return this._authService.findByCredentials(context.application._id, event.params.username, event.params.password, logger)
       .then((user) => {
@@ -22,14 +26,15 @@ class AuthLoginController extends Controller {
         return { user };
       })
       .then((result) => {
-        return this._tokenService.generateUserToken(result.user, context.application)
+        return this._tokenService.createUserToken(result.user, context.application)
           .then(token => {
             result.token = token;
+            result.jwt = this._tokenService.getJWT(result.token);
             return result;
           });
       })
       .then((result) => {
-        return new Result({ id: result.token._model._id.toString() }, { token: result.token.sign() });
+        return new Result({ tokenId: result.token._id.toString() }, { token: result.jwt.sign() });
       });
   }
 }

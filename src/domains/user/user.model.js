@@ -65,7 +65,7 @@ class UserModel {
 
     UserSchema.methods.getIdentity = function () {
       return {
-        name: this.name
+        name: this.name || (this.credentials && this.credentials.username)
       };
     };
 

@@ -3,31 +3,14 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 
+const JWT = require('./classes/jwt');
+
 const defaults = {
   secret: 'doocoop',
+  ttl: 60 * 60,
   audience: 'doocoop.auth',
   issuer: 'doocoop.auth'
 };
-
-class Token {
-  constructor (secret, model, user) {
-    this._secret = secret;
-    this._model = model;
-    this._user = user;
-  }
-
-  sign () {
-    const options = Object.assign({}, this._model.claims, {
-      jwtid: this._model._id.toString()
-    });
-    let payload = {};
-    if (this._user) {
-      options.subject = this._user._id.toString();
-      payload = this._user.getIdentity();
-    }
-    return jwt.sign(payload, this._secret, options);
-  }
-}
 
 class TokenService {
   constructor (tokenModel, config) {
@@ -47,25 +30,28 @@ class TokenService {
     return this._tokenModel.findOne({_id: id});
   }
 
-  generateUserToken (user, application, logger) {
+  create (instance, logger) {
+    return instance.save();
+  }
+
+  createUserToken (user, application, logger) {
     const claims = {
-      audience: this._config.audience,
-      expiresIn: 86400
+      audience: this._config.audience
     };
     const data = {
       account: application.account,
       application: application,
       user,
+      expires: Date.now() + this._config.ttl * 1000,
       claims
     };
     const token = this.model(data);
-    return this.create(token)
-      .then(() => new Token(this._config.secret, token, user));
+    return this.create(token);
   }
 
-  create (instance, logger) {
-    return instance.save();
-  }
+  getJWT (token) {
+    return new JWT(jwt, this._config.secret, token);
+  };
 
   update (id, data, logger) {
     const updates = {

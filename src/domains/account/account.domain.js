@@ -26,11 +26,11 @@ const defaults = {
 
 class AccountDomain extends Module {
   constructor (db, config) {
-    config = _.merge({}, defaults, config);
-    super();
+    super(_.merge({}, defaults, config));
+    const $c = this._config;
 
-    const accountModel = new AccountModel(db, config.models.account);
-    const accountService = new AccountService(accountModel, config.services.account);
+    const accountModel = new AccountModel(db, $c.models.account);
+    const accountService = new AccountService(accountModel, $c.services.account);
 
     this.addModel('account', accountModel);
     this.addService('account', accountService);
@@ -40,26 +40,24 @@ class AccountDomain extends Module {
     this.addPreMiddleware(RequireVerifiedTokenMiddleware);
 
     this.addHandler('account.list', {
-      controller: new AccountList(accountService, config.controllers.list)
+      controller: new AccountList(accountService, $c.controllers.list)
     });
 
     this.addHandler('account.get', {
-      controller: new AccountGet(accountService, config.controllers.get)
+      controller: new AccountGet(accountService, $c.controllers.get)
     });
 
     this.addHandler('account.create', {
-      controller: new AccountCreate(accountService, config.controllers.create)
+      controller: new AccountCreate(accountService, $c.controllers.create)
     });
 
     this.addHandler('account.update', {
-      controller: new AccountUpdate(accountService, config.controllers.update)
+      controller: new AccountUpdate(accountService, $c.controllers.update)
     });
 
     this.addHandler('account.remove', {
-      controller: new AccountRemove(accountService, config.controllers.delete)
+      controller: new AccountRemove(accountService, $c.controllers.delete)
     });
-
-    // this.before('account.*', ['parseToken']);
   }
 }
 

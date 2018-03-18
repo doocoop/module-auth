@@ -1,7 +1,12 @@
 'use strict';
 
+const _ = require('lodash');
+
+const defaults = {};
+
 class ApplicationService {
   constructor (applicationModel, config) {
+    this._config = _.merge({}, defaults, config);
     this._applicationModel = applicationModel;
   }
 

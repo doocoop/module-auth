@@ -5,9 +5,16 @@ const Middleware = monkfish.Middleware;
 const ApplicationError = monkfish.errors.ApplicationError;
 
 class VerifyApplicationMiddleware extends Middleware {
-  constructor (applicationService) {
-    super();
+  constructor (applicationService, config) {
+    super(config);
     this._applicationService = applicationService;
+  }
+
+  getAllowedErrors () {
+    return [
+      'doocoop.auth.application-unknown',
+      'doocoop.auth.application-origin-invalid'
+    ];
   }
 
   handle (event, context, logger) {

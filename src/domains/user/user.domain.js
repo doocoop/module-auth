@@ -26,11 +26,11 @@ const defaults = {
 
 class UserDomain extends Module {
   constructor (db, config) {
-    config = _.merge({}, defaults, config);
-    super();
+    super(_.merge({}, defaults, config));
+    const $c = this._config;
 
-    const userModel = new UserModel(db, config.models.user);
-    const userService = new UserService(userModel, config.services.user);
+    const userModel = new UserModel(db, $c.models.user);
+    const userService = new UserService(userModel, $c.services.user);
 
     this.addModel('user', userModel);
     this.addService('user', userService);
@@ -40,23 +40,23 @@ class UserDomain extends Module {
     this.addPreMiddleware(RequireVerifiedTokenMiddleware);
 
     this.addHandler('user.list', {
-      controller: new UserList(userService, config.controllers.list)
+      controller: new UserList(userService, $c.controllers.list)
     });
 
     this.addHandler('user.get', {
-      controller: new UserGet(userService, config.controllers.get)
+      controller: new UserGet(userService, $c.controllers.get)
     });
 
     this.addHandler('user.create', {
-      controller: new UserCreate(userService, config.controllers.create)
+      controller: new UserCreate(userService, $c.controllers.create)
     });
 
     this.addHandler('user.update', {
-      controller: new UserUpdate(userService, config.controllers.update)
+      controller: new UserUpdate(userService, $c.controllers.update)
     });
 
     this.addHandler('user.remove', {
-      controller: new UserRemove(userService, config.controllers.delete)
+      controller: new UserRemove(userService, $c.controllers.delete)
     });
   }
 }

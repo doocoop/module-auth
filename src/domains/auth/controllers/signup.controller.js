@@ -12,6 +12,10 @@ class AuthSignupController extends Controller {
     this._authService = authService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.auth.username-not-unique'];
+  }
+
   handle (event, context, logger) {
     return this._authService.findByUsername(context.applicationId, event.data.username, logger)
       .then((user) => {

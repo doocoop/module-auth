@@ -12,6 +12,10 @@ class TokenGetController extends Controller {
     this._tokenService = tokenService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.resource.not-found'];
+  }
+
   handle (event, context, logger) {
     return this._tokenService.get(event.params.id, logger)
       .then((token) => {

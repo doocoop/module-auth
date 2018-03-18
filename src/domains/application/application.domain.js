@@ -26,11 +26,11 @@ const defaults = {
 
 class ApplicationDomain extends Module {
   constructor (db, config) {
-    config = _.merge({}, defaults, config);
-    super();
+    super(_.merge({}, defaults, config));
+    const $c = this._config;
 
-    const applicationModel = new ApplicationModel(db, config.models.application);
-    const applicationService = new ApplicationService(applicationModel, config.services.application);
+    const applicationModel = new ApplicationModel(db, $c.models.application);
+    const applicationService = new ApplicationService(applicationModel, $c.services.application);
 
     this.addModel('application', applicationModel);
     this.addService('application', applicationService);
@@ -40,23 +40,23 @@ class ApplicationDomain extends Module {
     this.addPreMiddleware(RequireVerifiedTokenMiddleware);
 
     this.addHandler('application.list', {
-      controller: new ApplicationList(applicationService, config.controllers.list)
+      controller: new ApplicationList(applicationService, $c.controllers.list)
     });
 
     this.addHandler('application.get', {
-      controller: new ApplicationGet(applicationService, config.controllers.get)
+      controller: new ApplicationGet(applicationService, $c.controllers.get)
     });
 
     this.addHandler('application.create', {
-      controller: new ApplicationCreate(applicationService, config.controllers.create)
+      controller: new ApplicationCreate(applicationService, $c.controllers.create)
     });
 
     this.addHandler('application.update', {
-      controller: new ApplicationUpdate(applicationService, config.controllers.update)
+      controller: new ApplicationUpdate(applicationService, $c.controllers.update)
     });
 
     this.addHandler('application.remove', {
-      controller: new ApplicationRemove(applicationService, config.controllers.delete)
+      controller: new ApplicationRemove(applicationService, $c.controllers.delete)
     });
   }
 }

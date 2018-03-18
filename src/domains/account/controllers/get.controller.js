@@ -12,6 +12,10 @@ class AccountGetController extends Controller {
     this._accountService = accountService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.resource.not-found'];
+  }
+
   handle (event, context, logger) {
     return this._accountService.get(event.params.id, logger)
       .then((account) => {

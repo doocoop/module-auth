@@ -27,12 +27,12 @@ const defaults = {
 
 class AuthDomain extends Module {
   constructor (db, userDomain, tokenDomain, config) {
-    config = _.merge({}, defaults, config);
-    super();
+    super(_.merge({}, defaults, config));
+    const $c = this._config;
 
     const userModel = userDomain.getModel('user');
     const userService = userDomain.getService('user');
-    const authService = new AuthService(userService, userModel, config.services.auth);
+    const authService = new AuthService(userService, userModel, $c.services.auth);
 
     this.addService('auth', authService);
 
@@ -46,7 +46,7 @@ class AuthDomain extends Module {
         RequireApplicationMiddleware,
         VerifyApplicationMiddleware
       ],
-      controller: new AuthMe(authService, config.controllers.list)
+      controller: new AuthMe(authService, $c.controllers.list)
     });
 
     this.addHandler('auth.login', {
@@ -55,7 +55,7 @@ class AuthDomain extends Module {
         RequireApplicationMiddleware,
         VerifyApplicationMiddleware
       ],
-      controller: new AuthLogin(authService, tokenService, config.controllers.get)
+      controller: new AuthLogin(authService, tokenService, $c.controllers.get)
     });
 
     this.addHandler('auth.signup', {
@@ -64,17 +64,15 @@ class AuthDomain extends Module {
         RequireApplicationMiddleware,
         VerifyApplicationMiddleware
       ],
-      controller: new AuthSignup(authService, config.controllers.create)
+      controller: new AuthSignup(authService, $c.controllers.create)
     });
 
     this.addHandler('auth.logout', {
       pre: [
         VerifyTokenMiddleware
       ],
-      controller: new AuthLogout(authService, tokenService, config.controllers.update)
+      controller: new AuthLogout(authService, tokenService, $c.controllers.update)
     });
-
-    // this.before('account.*', ['parseToken']);
   }
 }
 

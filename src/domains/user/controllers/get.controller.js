@@ -12,6 +12,10 @@ class UserGetController extends Controller {
     this._userService = userService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.resource.not-found'];
+  }
+
   handle (event, context, logger) {
     return this._userService.get(event.params.id, logger)
       .then((user) => {

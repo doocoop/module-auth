@@ -1,9 +1,13 @@
 'use strict';
 
+const _ = require('lodash');
 const bcrypt = require('bcrypt');
+
+const defaults = {};
 
 class AuthService {
   constructor (userService, userModel, config) {
+    this._config = _.merge({}, defaults, config);
     this._userService = userService;
     this._userModel = userModel;
   }

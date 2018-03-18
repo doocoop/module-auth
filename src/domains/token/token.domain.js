@@ -26,11 +26,11 @@ const defaults = {
 
 class TokenDomain extends Module {
   constructor (db, config) {
-    config = _.merge({}, defaults, config);
-    super();
+    super(_.merge({}, defaults, config));
+    const $c = this._config;
 
-    const tokenModel = new TokenModel(db, config.models.token);
-    const tokenService = new TokenService(tokenModel, config.services.token);
+    const tokenModel = new TokenModel(db, $c.models.token);
+    const tokenService = new TokenService(tokenModel, $c.services.token);
 
     this.addModel('token', tokenModel);
     this.addService('token', tokenService);
@@ -40,23 +40,23 @@ class TokenDomain extends Module {
     this.addPreMiddleware(RequireVerifiedTokenMiddleware);
 
     this.addHandler('token.list', {
-      controller: new TokenList(tokenService, config.controllers.list)
+      controller: new TokenList(tokenService, $c.controllers.list)
     });
 
     this.addHandler('token.get', {
-      controller: new TokenGet(tokenService, config.controllers.get)
+      controller: new TokenGet(tokenService, $c.controllers.get)
     });
 
     this.addHandler('token.create', {
-      controller: new TokenCreate(tokenService, config.controllers.create)
+      controller: new TokenCreate(tokenService, $c.controllers.create)
     });
 
     this.addHandler('token.update', {
-      controller: new TokenUpdate(tokenService, config.controllers.update)
+      controller: new TokenUpdate(tokenService, $c.controllers.update)
     });
 
     this.addHandler('token.remove', {
-      controller: new TokenRemove(tokenService, config.controllers.delete)
+      controller: new TokenRemove(tokenService, $c.controllers.delete)
     });
   }
 }

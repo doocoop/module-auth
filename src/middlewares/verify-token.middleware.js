@@ -4,8 +4,8 @@ const monkfish = require('@cork-labs/monkfish');
 const Middleware = monkfish.Middleware;
 
 class VerifyTokenMiddleware extends Middleware {
-  constructor (tokenService) {
-    super();
+  constructor (tokenService, config) {
+    super(config);
     this._tokenService = tokenService;
   }
 

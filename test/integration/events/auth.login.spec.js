@@ -127,7 +127,7 @@ describe('auth.login', function () {
     });
   });
 
-  describe('when a known application and valid crendetials are provided', function () {
+  describe('when a known application and valid crendentials are provided', function () {
     beforeEach(function () {
       this.event = {
         type: 'auth.login',
@@ -141,7 +141,7 @@ describe('auth.login', function () {
 
     it('should resolve with a new token', function () {
       return this.promise.then((result) => {
-        expect(result.data.id).to.be.a('string');
+        expect(result.data.tokenId).to.be.a('string');
         expect(result._meta.token).to.be.a('string');
       });
     });

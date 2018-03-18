@@ -30,10 +30,10 @@ class TokenModel {
         required: true,
         default: 'active'
       },
-      expires: [{
+      expires: {
         type: Date,
         required: true
-      }],
+      },
       claims: Schema.Types.Mixed
     }, {
       timestamps: true

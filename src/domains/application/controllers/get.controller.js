@@ -12,6 +12,10 @@ class ApplicationGetController extends Controller {
     this._applicationService = applicationService;
   }
 
+  getAllowedErrors () {
+    return ['doocoop.resource.not-found'];
+  }
+
   handle (event, context, logger) {
     return this._applicationService.get(event.params.id, logger)
       .then((application) => {

@@ -17,5 +17,8 @@
     "**/coverage": true
   },
   "eslint.run": "onSave",
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#075f16"
+  }
 }

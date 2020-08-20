@@ -20,7 +20,7 @@
   "dependencies": {
     "@cork-labs/monkfish": "^0.2.0",
     "@cork-labs/monkfish-adapter-mongoose": "^0.1.2",
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^5.0.0",
     "jsonwebtoken": "^8.2.0"
   },
   "devDependencies": {
